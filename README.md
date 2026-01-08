@@ -79,6 +79,7 @@ Model Serialization: Joblib
 Version Control: Git & GitHub
 
 ### 📂 Project Structure
+```
 Air_Pollution_Kidney_Risk_Project/
 │
 ├── app.py                     # FastAPI backend
@@ -93,6 +94,7 @@ Air_Pollution_Kidney_Risk_Project/
 │
 └── data/
     └── real-world datasets    # NHANES & health-related datasets
+```
 
 ### How to Run the Project
 1️⃣ Backend Setup (FastAPI)
