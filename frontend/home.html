@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home | Kidney Risk System</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:#f4f8ff;
+}
+
+.nav{
+    background:white;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.hero{
+    text-align:center;
+    margin-top:80px;
+}
+
+.hero h1{
+    font-size:34px;
+    color:#2c3e50;
+}
+
+.hero p{
+    color:gray;
+    margin-top:10px;
+}
+
+.buttons{
+    margin-top:35px;
+}
+
+.btn{
+    padding:12px 24px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    color:white;
+}
+
+.manual{ background:#3498db; }
+.predict{ background:#349381; }
+.logout{ background:#e74c3c; }
+</style>
+
+</head>
+
+<body>
+
+<div class="nav">
+    <b>Kidney Risk AI</b>
+    <button class="btn logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="hero">
+    <h1>Your Health, Our Responsibility</h1>
+    <p>AI-powered Kidney Risk Detection & Awareness System</p>
+
+    <div class="buttons">
+        <button class="btn manual" onclick="goManual()">View Normal Parameters</button>
+        <button class="btn predict" onclick="goPredict()">Predict Kidney Risk</button>
+    </div>
+</div>
+
+<script>
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "login.html";
+}
+
+function goManual(){
+    window.location.href = "manual.html";
+}
+
+function goPredict(){
+    window.location.href = "index.html"; // existing prediction page
+}
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>

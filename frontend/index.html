@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kidney Risk Prediction System</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-image: url("b1.jpg");
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            width: 420px;
+            margin-top: 20px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #34495e;
+            margin-top: 12px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 9px;
+            margin-top: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #66a6ff;
+        }
+
+        button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 11px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background:#349381;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f4f8ff;
+            display: none;
+        }
+
+        .risk {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        li {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: gray;
+            margin-top: 20px;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Kidney Risk Predictor</h2>
+    <div class="subtitle">
+        ML-based Health Risk Prediction System
+    </div>
+
+    <label>Age</label>
+    <input id="age" type="number" placeholder="Enter age">
+
+    <label>Gender</label>
+    <select id="gender">
+        <option value="1">Male</option>
+        <option value="0">Female</option>
+    </select>
+
+    <label>Systolic Blood Pressure</label>
+    <input id="systolic_bp" type="number" placeholder="e.g. 120">
+
+    <label>Diastolic Blood Pressure</label>
+    <input id="diastolic_bp" type="number" placeholder="e.g. 80">
+
+    <label>Urine Creatinine</label>
+    <input id="urine_creatinine" type="number" placeholder="e.g. 110">
+
+    <label>Urine Albumin</label>
+    <input id="urine_albumin" type="number" placeholder="e.g. 25">
+
+    <button onclick="predictRisk()">Predict Risk</button>
+    <button onclick="logout()" style="float:right; margin-bottom:10px;">
+        Logout
+    </button>
+
+    <div class="result" id="resultBox">
+        <div class="risk" id="riskText"></div>
+        <ul id="recommendations"></ul>
+        <div id="precautions"></div>
+    </div>
+
+    <footer>
+        End-to-End ML Project | Data Science
+    </footer>
+</div>
+
+<script>
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+
+if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
+}
+async function predictRisk() {
+
+    const payload = {
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        systolic_bp: document.getElementById("systolic_bp").value,
+        diastolic_bp: document.getElementById("diastolic_bp").value,
+        urine_creatinine: document.getElementById("urine_creatinine").value,
+        urine_albumin: document.getElementById("urine_albumin").value
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    let html = `<h3>Kidney Risk Level: ${data.risk_level}</h3>`;
+
+    if (data.recommendations) {
+        html += "<h4>Recommendations:</h4><ul>";
+        data.recommendations.forEach(r => {
+            html += `<li>${r}</li>`;
+        });
+        html += "</ul>";
+    }
+
+    if (data.precautions) {
+        html += "<h4>Precautions:</h4><ul>";
+        data.precautions.forEach(p => {
+            html += `<li>${p}</li>`;
+        });
+        html += "</ul>";
+    }
+
+    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("resultBox").innerHTML = html;
+
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kidney Risk Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6ff;
+        }
+
+        .container {
+            width: 400px;
+            margin: 60px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 13px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Kidney Risk Predictor</h2>
+
+    <form action="http://127.0.0.1:8000/predict" method="post">
+
+        <label>Age</label>
+        <input type="number" name="age" required>
+
+        <label>Gender</label>
+        <select name="gender">
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+        </select>
+
+        <label>Urine Creatinine</label>
+        <input type="number" step="any" name="urxucr" required>
+
+        <label>Urine Albumin</label>
+        <input type="number" step="any" name="urxuma" required>
+
+        <label>Systolic Blood Pressure</label>
+        <input type="number" name="bpsys" required>
+
+        <label>Diastolic Blood Pressure</label>
+        <input type="number" name="bpdia" required>
+
+        <button type="submit">Predict Risk</button>
+    </form>
+
+    <footer>
+        ML-based Kidney Risk Prediction System
+    </footer>
+</div>
+
+</body>
+</html>
